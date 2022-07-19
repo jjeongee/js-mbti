@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--부트스트랩 가져오기-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="stylesheet" href="./mbti.css">
+</head>
+<body class="container">
+    <article class="start">
+        <h1 class="mt-5 text-center">내가 동물의 숲 주민이라면?</h1>
+        <h2 class="sub-title mt-3 text-center">테스트를 시작해서 고마워구리!</h2>
+        <h3 style="font-size:15px;" class="text-center">이용 대금은 만벨이야구리!</h3>
+        <button type="button" class="btn btn-light mt-5" onclick="start();">시작!</button>
+    </article>
+    <article class="question">
+        <div class="progress mt-5">
+            <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: calc(100/12*1%)" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <h2 id="title" class="text-center mt-5">문제</h2>
+        <input id="type" type="hidden" value="EI">
+        <button id ="A" type="button" class="btn btn-outline-warning mt-5">Warning</button>
+        <button id ="B" type="button" class="btn btn-outline-warning mt-5">Warning</button>
+    </article>
+    
+    <article class="result">
+        <img id = "img" class="mt-5" src="img/apple.jpg" alt="animal">
+        <h2 id="animal" class="text-center mt-5">주민이름</h2>
+        <h3 id="identity" class="text-center mt-5">"말버릇"</h3>
+        <h4 id="explain" class="text-center mt-5">주민설명</h4>
+    </article>
+    
+    <article>
+        <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
+        <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
+        <input type="hidden" id="EI" value="0">
+        <input type="hidden" id="SN" value="0">
+        <input type="hidden" id="TF" value="0">
+        <input type="hidden" id="JP" value="0">
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+        <script>
+            var num=1;
+            var q = {
+                1:{"title": "섬으로 이사와서 짐을 푸는날! 뭐할까?", "type": "EI", "A": "옆집 주민들이랑 인사할래", "B":"짐풀었으니까 고생했으니 쉴래!"},
+                2:{"title": "뭘할지 결정했어!", "type": "EI", "A": "주민들이랑 요리도 만들고 섬 소개를 해달라고 할거야!", "B":"아까 짐풀때 보니까 앨범도 있고, 어제산 책도 읽어야해"},
+                3:{"title": "오늘 낚시대회가 있대!", "type": "EI", "A": "아까 사귄 새로운 친구들이랑 모여서 같이 낚시할래!", "B":"새소리, 파도소리, 강이 흐르는소리를 들으면서 여유롭게 낚시할래!"},
+                4:{"title": "주민대표가 우리 처음 만났을때를 기억하냐고 물어보네!", "type": "SN", "A": "기억하지! 그때 우리가 마일섬에서 만났으니까...", "B":"당연히 기억나지! 그때 무슨섬을 갈까 마침 고민하던 참이었는데..."},
+                5:{"title": "낚시대회가 슬슬 마무리 되고있어 경품으로는 어떤게 나올까?", "type": "SN", "A": "평소처럼 가구나 잡화같은걸 줄거같아!", "B":"이번 대회에서는 뭔가 다를거 같은데! 초호화 마일티켓을 줄지도 몰라"},
+                6:{"title": "이사에 들떠서 까먹고 있었다! 대출금도 갚아야지!", "type": "SN", "A": "평소에 하던대로 물고기도 잡고 과일도 따서 팔아볼래!", "B":"새로운 섬이니까 또 다른 방법이 있을거야! 여기에서는 무를 한번 사볼까?"},
+                7:{"title": "주민대표한테 말을걸어볼까? 힉 벌에 쏘였네!", "type": "TF", "A": "헉! 눈이 많이 부었네 내가 너굴상점에서 약을 사올게!", "B":"헉 괜찮아? 나무를 베다가 그렇게 된거야? 아프겠다 ㅠㅠ"},
+                8:{"title": "주민대표가 자기를 걱정해줘서 고맙다며 보답으로 선물을 줬는데, 이미 있는 물건이야!", "type": "TF", "A": "헉 고마워! 다음에는 이런거 안줘도 돼!", "B":"헐 ㅠㅠ 완전 감동이야 고마워!"},
+                9:{"title": "나랑 제일 친한 호떡이랑 내 옆집에 사는 문대가 다투고 있어!", "type": "TF", "A": "둘의 이야기를 들어보고 친분에 상관없이 잘잘못을 따져볼래", "B":"호떡이가 조금더 잘못한거 같은데... 문대의 편을 들어줬지만 호떡이에게 미안해.."},
+                10:{"title": "호떡이가 미안하다고 문대에게 선물을 전해달래!", "type": "JP", "A": "이따 나도 문대에게 줄 선물이 있었는데, 집에 들렀다 가야겠다! ", "B":"급한일도 없는데 지금 전해주지 뭐!"},
+                11:{"title": "문대가 고맙다고 자기 집에서 놀다가래!", "type": "JP", "A": "집에가서 DIY를 하고 레시피도 만들어야해! 다음에 놀자", "B":"좋아! 집에가서 작업대로 DIY를 해야하지만 내일하지 뭐!"},
+                12:{"title": "오늘 하루가 끝났어! 자기전에 뭘할까?", "type": "JP", "A": "내일은 어떻게 대출금을 갚을지 좀 적어볼까?", "B":"그림도 좀 그려보고... tv도 좀 볼까?"}
+            }
+            var result={
+                "ENFP": {"animal": "애플", "identity":"큐룽","explain":"우리섬의 에너자이저", "img":"./apple.jpg"},
+                "ESTJ": {"animal": "너굴", "identity":"구리","explain":"우리섬의 사장이자 물주", "img":"./neogul.jpg"},
+                "INFJ": {"animal": "뽀야미", "identity":"뽀드득","explain":"항상 주대에게 자기가 읽은 책내용 물어봄", "img":"./ppoyam.jpg"},
+                "ESFJ": {"animal": "부케", "identity":"헤이","explain":"우리섬의 아이돌!", "img":"./bukke.jpg"},
+                "INTJ": {"animal": "잭슨", "identity":"우쭐!","explain":"낚시대회,곤충채집대회에서 늘 1등임", "img":"./jackson.jpg"},
+                "ISTP": {"animal": "문대", "identity":"츠츠츠","explain":"자신만에 세계에 빠져있으며, 주로 헬창세계에서 자신이 금메달 따는 상상에 빠져있음", "img":"./moondae.png"},
+                "ENFJ": {"animal": "마리", "identity":"됐거든","explain":"마을 수장의 최측근이며 너굴이랑 친해서 이자를 감면받고있음", "img":"./mari.jpg"},
+                "ENTJ": {"animal": "차둘", "identity":"뿜뿜","explain":"이섬의 실질적인 실세임 주민대표,너굴도 한수 접고들어감", "img":"./chadul.jpg"},
+                "ISFP": {"animal": "호떡", "identity":"뒤집어!","explain":"집에 놀러가면 항상 자고있거나 쉬고있는 우리섬 최강 귀요미", "img":"./hodduck.jpg"},
+                "INFP": {"animal": "사이다", "identity":"퐁퐁","explain":"우리섬에서 제일 조용한주민! 다른 주민들 심지어 주민대표까지도 고민상담하러옴", "img":"./cider.jpg"},
+                "ESTP": {"animal": "쵸이", "identity":"휘리릭","explain":"학창시절에 교복 제대로 안입었을상, 낚시대회 곤충대회 참여안함", "img":"./choi.jpg"},
+                "ISTJ": {"animal": "켄", "identity":"음음","explain":"할아버지 컨셉 주민으로, 주민들에게 늘 조언하고다님", "img":"./ken.jpg"},
+                "ENTP": {"animal": "쭈니", "identity":"어차피","explain":"주민대표,주민,너굴등 섬에 있는 모두에게 항상 선물을줌", "img":"./jjuni.jpg"},
+                "ISFJ": {"animal": "스피카", "identity":"빤짝","explain":"주민대표가 마음에 들면 섬에서 영원히 이사 안감", "img":"./spika.jpg"},
+                "INTP": {"animal": "톰슨", "identity":"엣헴","explain":"대출 안갚아서 너굴사장이 독촉함", "img":"./tompson.jpg"},
+                "ESFP": {"animal": "요비", "identity":"아무튼","explain":"우리섬 최대 인싸! 모든 주민들과 친구임", "img":"./yobi.jpg"}
+            }
+            function start() {
+                $(".start").hide();
+                $(".question").show();
+                next();
+            }
+            $("#A").click(function(){
+                var type = $("#type").val();
+                var preValue = $('#'+type).val();
+                $('#'+type).val(parseInt(preValue)+1);
+                next();
+            });
+            $("#B").click(function(){
+                next();
+            });
+
+            function next(){
+                if (num==13){
+                    $(".question").hide();
+                    $(".result").show();
+                    var mbti="";
+                    ($("#EI").val()<2) ? mbti+="I": mbti+="E";
+                    ($("#SN").val()<2) ? mbti+="N": mbti+="S";
+                    ($("#TF").val()<2) ? mbti+="F": mbti+="T";
+                    ($("#JP").val()<2) ? mbti+="P": mbti+="J";
+                    $("img").attr("src","img/"+result[mbti]["img"]);
+                    $("#animal").html(result[mbti]["animal"]);
+                    $("#identity").html(result[mbti]["identity"]);
+                    $("#explain").html(result[mbti]["explain"]);
+                }
+                else {
+                    $(".progress-bar").attr('style','width: calc(100/12*'+num+'%');
+                    $('#title').html(q[num]["title"]);
+                    $('#type').val(q[num]['type']);
+                    $('#A').html(q[num]["A"]);
+                    $('#B').html(q[num]["B"]);
+                    num++;
+                }
+            }
+        </script>    
+
+    </article>
+</body>
+</html>
